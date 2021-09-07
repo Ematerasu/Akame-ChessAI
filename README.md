@@ -1,5 +1,5 @@
 # Akame-ChessEngine
-Simple chess engine that I use as a learning expierience in the AI world
+Simple chess engine that I use as a learning experience in the AI world
 
 ## Tools used
 I use python chess module to simulate game of chess.
