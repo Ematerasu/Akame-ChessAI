@@ -8,19 +8,16 @@ class Akame():
         self.board = chess.Board()
         self.color = "b"
     
-    def move(self, board: chess.Board()) -> chess.Move:
+    def move(self, board: chess.Board) -> chess.Move:
         self.board = board
-        legal_moves = list(self.board.legal_moves)
-        currentSituation = self.evaluate()
-        if self.color == "b":
-            currentSituation *= -1
-        
+        currentSituation = self.evaluate(self.board)
         print(currentSituation)
-        return legal_moves[0]
+        best_move = self.minmaxRoot(3, -9999, 9999)
+        return best_move
 
-    def evaluate(self) -> float:
+    def evaluate(self, board: chess.Board) -> float:
         eval = 0
-        boardFen = self.board.fen()
+        boardFen = board.fen()
         i, j = 0, 0
         for index, letter in enumerate(boardFen):
             if letter == ' ':
@@ -32,12 +29,67 @@ class Akame():
                 if letter.isdigit():
                     j += ord(letter) - 48
                 else:
-                    eval += GET_VALUE[letter]*GET_MAP[letter][i][j]
+                    piece_value = GET_VALUE[letter]+GET_MAP[letter][i][j]
+                    eval += piece_value if letter.isupper() else -piece_value
                     j+=1
         return eval
 
-    def minmaxroot(self, depth, alpha, beta, board):
-        pass
+    def minmaxRoot(self, depth: int, alpha: int, beta: int) -> int:
+        legal_moves = list(self.board.legal_moves)
+        best = alpha
+        best_move = None
+        for move in legal_moves:
+
+            self.board.push(move)
+            new = self.minmaxNode(depth-1, alpha, beta, False)
+            self.board.pop()
+            #print(f"\t{move}, {new}: ")
+            if new > best:
+                best = new
+                best_move = move
+        return best_move
+
+
+    def minmaxNode(self, depth: int, alpha: int, beta: int, myMove: bool) -> int:
+        if depth == 0:
+            return -self.evaluate(self.board)
+        
+        legal_moves = list(self.board.legal_moves)
+
+        if myMove:
+            best = -9999
+
+            for move in legal_moves:
+
+                self.board.push(move)
+                new = self.minmaxNode(depth-1, alpha, beta, not myMove)
+                self.board.pop()
+
+                if new > best:
+                    best = new
+                
+                alpha = max(alpha, best)
+
+                if beta <= alpha:
+                    return best
+            return best
+        else:
+            best = 9999
+
+            for move in legal_moves:
+
+                self.board.push(move)
+                new = self.minmaxNode(depth-1, alpha, beta, not myMove)
+                self.board.pop()
+
+                if new < best:
+                    best = new
+                    
+                beta = min(beta, best)
+
+                if beta <= alpha:
+                    return best
+            return best
                 
 
     

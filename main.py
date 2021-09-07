@@ -14,5 +14,7 @@ if __name__ == "__main__":
             print("Illegal move!")
         if board.is_game_over():
             break
-        board.push(akame.move(board))
+        akame_move = akame.move(board)
+        print(f"Akame's move: {akame_move}")
+        board.push(akame_move)
     print(board.result())
