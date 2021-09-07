@@ -7,11 +7,14 @@ if __name__ == "__main__":
     while not board.is_game_over():
         print(board.legal_moves)
         print(board)
-        move = board.parse_san(input())
-        if move in board.legal_moves:
-            board.push(move)
-        else:
+        try:
+            move = board.parse_san(input())
+            if move in board.legal_moves:
+                board.push(move)
+        except:
             print("Illegal move!")
+            continue
+        
         if board.is_game_over():
             break
         akame_move = akame.move(board)
