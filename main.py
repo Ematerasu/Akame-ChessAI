@@ -5,7 +5,7 @@ if __name__ == "__main__":
     print("pick side (white/black):")
     color = False if input() == "white" else True
     print("pick depth: ", end="", flush=True)
-    depth = input()
+    depth = int(input())
     akame = Akame.Akame(color)
     board = chess.Board()
 
@@ -35,6 +35,8 @@ if __name__ == "__main__":
         akame_move = akame.move(board, depth)
         print(f"Akame's move: {akame_move}")
         board.push(akame_move)
+
+
     print(board.result())
     if akame.akame_won():
         print("Akame win!")

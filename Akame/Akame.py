@@ -13,7 +13,7 @@ class Akame():
         currentSituation = self.evaluate(self.board)
         print(currentSituation)
         move_counter = len(self.board.move_stack)
-        depth += move_counter // 20
+        depth += move_counter // 60
         best_move = self.minmaxRoot(depth, -9999, 9999)
         return best_move
 
@@ -22,7 +22,7 @@ class Akame():
             if self.board.outcome().winner == self.color:
                 return True
             else:
-                return False        
+                return False
         return False
 
     def evaluate(self, board: chess.Board) -> float:
@@ -66,10 +66,17 @@ class Akame():
                     return 99999
                 else:
                     return -99999
-            elif self.board.is_repetition():
-                   return -self.evaluate(self.board)
+            elif self.board.is_repetition():    
+                #Draw is bad for us if we're winning and good for us if we are losing so we just return negative evaluation
+                if self.color:
+                    return -self.evaluate(self.board)
+                else:
+                    return self.evaluate(self.board)
             elif self.board.is_stalemate():
-                return -self.evaluate(self.board)
+                if self.color:
+                    return -self.evaluate(self.board)
+                else:
+                    return self.evaluate(self.board)
 
         
         if depth == 0:
