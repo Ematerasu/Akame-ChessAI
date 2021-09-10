@@ -104,6 +104,7 @@ class Akame():
                 
                 alpha = max(alpha, best)
 
+                #pruning
                 if beta <= alpha:
                     return best
             return best
@@ -123,7 +124,8 @@ class Akame():
                     best = new
                     
                 beta = min(beta, best)
-
+                
+                #pruning
                 if beta <= alpha:
                     return best
             return best
