@@ -11,7 +11,7 @@ class Akame():
     def move(self, board: chess.Board, depth: int) -> chess.Move:
         self.board = board
         currentSituation = self.evaluate(self.board)
-        print(currentSituation)
+        print(f"eval: {currentSituation}")
         move_counter = len(self.board.move_stack)
         depth += move_counter // 60
         best_move = self.minmaxRoot(depth, -9999, 9999)
@@ -29,7 +29,7 @@ class Akame():
         eval = 0
         boardFen = board.fen()
         i, j = 0, 0
-        for index, letter in enumerate(boardFen):
+        for letter in boardFen:
             if letter == ' ':
                 break
             if letter == '/':
@@ -48,11 +48,17 @@ class Akame():
         legal_moves = list(self.board.legal_moves)
         best = alpha
         best_move = None
-        for move in legal_moves:
 
+        for move in legal_moves:
             self.board.push(move)
             new = self.minmaxNode(depth-1, alpha, beta, False)
             self.board.pop()
+
+            if self.board.san(move) == "0-0":
+                new += 10
+            if self.board.san(move) == "0-0-0":
+                new += 5
+                
             if new > best:
                 best = new
                 best_move = move
@@ -96,9 +102,6 @@ class Akame():
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
 
-                if new == 99999:
-                    return new
-
                 if new > best:
                     best = new
                 
@@ -116,9 +119,6 @@ class Akame():
                 self.board.push(move)
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
-
-                if new == -99999:
-                    return new
 
                 if new < best:
                     best = new
