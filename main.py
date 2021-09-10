@@ -2,7 +2,14 @@ from Akame import Akame
 import chess
 
 if __name__ == "__main__":
-    print("pick side (white/black):")
+    print("Welcome! My name's Akame and I love playing chess, wanna play a game?:")
+    print("(Yes/No)", end="", flush=True)
+    answer = input()
+    if answer == "No":
+        print("Sadge")
+        exit(0)
+    print("Cool :D")
+    print("Pick a side (white/black):")
     color = False if input() == "white" else True
     print("pick depth: ", end="", flush=True)
     depth = int(input())
