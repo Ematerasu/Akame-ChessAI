@@ -96,6 +96,9 @@ class Akame():
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
 
+                if new == 99999:
+                    return new
+
                 if new > best:
                     best = new
                 
@@ -112,6 +115,9 @@ class Akame():
                 self.board.push(move)
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
+
+                if new == -99999:
+                    return new
 
                 if new < best:
                     best = new
