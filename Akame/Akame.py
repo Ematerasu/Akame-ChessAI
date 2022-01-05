@@ -39,7 +39,7 @@ class Akame():
                 if letter.isdigit():
                     j += ord(letter) - 48
                 else:
-                    piece_value = GET_VALUE[letter]+GET_MAP[letter][i][j]
+                    piece_value = get_piece_value(letter, board, (i, j))
                     eval += piece_value if letter.isupper() else -piece_value
                     j+=1
         return eval
@@ -54,9 +54,9 @@ class Akame():
             new = self.minmaxNode(depth-1, alpha, beta, False)
             self.board.pop()
 
-            if self.board.san(move) == "0-0":
+            if self.board.is_kingside_castling(move):
                 new += 10
-            if self.board.san(move) == "0-0-0":
+            if self.board.is_queenside_castling(move):
                 new += 5
                 
             if new > best:
@@ -102,6 +102,11 @@ class Akame():
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
 
+                if self.board.is_kingside_castling(move):
+                    new += 10
+                if self.board.is_queenside_castling(move):
+                    new += 5
+
                 if new > best:
                     best = new
                 
@@ -119,6 +124,11 @@ class Akame():
                 self.board.push(move)
                 new = self.minmaxNode(depth-1, alpha, beta, not myMove)
                 self.board.pop()
+
+                if self.board.is_kingside_castling(move):
+                    new += 10
+                if self.board.is_queenside_castling(move):
+                    new += 5
 
                 if new < best:
                     best = new

@@ -85,8 +85,9 @@ TRANSLATE_COORDS ={
     'e' : 4,
     'f' : 5,
     'g' : 6,
-    'h' : 7
+    'h' : 7,
 }
+
 
 GET_MAP = {
             'p' : BLACK_PAWN_HEATMAP,

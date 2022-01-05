@@ -1,3 +1,6 @@
+from Akame.heatmaps import GET_MAP
+import chess
+
 PAWN_VALUE = 10
 KNIGHT_VALUE = 30
 BISHOP_VALUE = 30
@@ -19,3 +22,17 @@ GET_VALUE = {
             'Q' : QUEEN_VALUE,
             'K' : KING_VALUE
         }
+
+def get_piece_value(piece: chr, board: chess.Board, pos: tuple) -> float:
+    value = 0.0
+    value += GET_VALUE[piece] + GET_MAP[piece][pos[0]][pos[1]]
+    """
+    temp = list(board.attacks(pos[0]*8+pos[1]))
+    for elem in temp:
+        x = board.piece_at(elem)
+        if x is not None:
+            if (x.color and piece.isupper()) or (not x.color and piece.islower()):
+                value += GET_VALUE[x.symbol()]*0.5
+
+    """
+    return value
